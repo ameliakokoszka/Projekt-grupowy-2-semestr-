@@ -5,5 +5,7 @@ Skład projektu:
 3. Amelia Kokoszka
 4. Aleksander Skorupski
 5. Maciej Garwoliński
+
 TEMAT PROJEKTU: Kalkulator Punktów Studenckich
+
 OPIS: 
