@@ -17,7 +17,7 @@ Kalkulator Punktów Studenckich
 4. AKTYWACJA SRODOWISKA
 
    * Windows (PowerShell):
-       .venv\Scripts\activate
+       .\venv\Scripts\activate
 
    * Windows (Git Bash/CMD):
        source venv/Scripts/activate
