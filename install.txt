@@ -1,0 +1,38 @@
+INSTRUKCJA INSTALACJI I URUCHOMIENIA
+Kalkulator Punktów Studenckich
+
+===========================================
+
+1. WYMAGANIA WSTEPNE
+   * Zainstalowany Python w wersji 3.10 lub nowszej.
+     Sprawdz wersje: python --version
+
+2. POBRANIE REPOZYTORIUM
+   git clone https://github.com/ameliakokoszka/Projekt-grupowy-2-semestr-.git
+   cd Projekt-grupowy-2-semestr-
+
+3. TWORZENIE SRODOWISKA WIRTUALNEGO
+   python -m venv venv
+
+4. AKTYWACJA SRODOWISKA
+
+   * Windows (PowerShell):
+       .venv\Scripts\activate
+
+   * Windows (Git Bash/CMD):
+       source venv/Scripts/activate
+
+   * Linux / macOS:
+       source venv/bin/activate
+
+5. INSTALACJA WYMAGANYCH BIBLIOTEK
+   pip install -r requirements.txt
+
+6. URUCHOMIENIE PROGRAMU
+   python main.py
+
+===========================================
+
+UZYTE BIBLIOTEKI:
+   * PySide6  - interfejs graficzny aplikacji
+   * pytest   - testy jednostkowe
