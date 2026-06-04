@@ -1,3 +1,28 @@
-INSTRUKCJA UŻYTKOWANIA PROGRAMU:
-W aplikacji wspisujemy nazwę przedmiotów, do których możemy dodać kolokwia, egzaminy, kartkówki i aktywność z ich punktami do zdobycia.
-Po wpisaniu progów zaliczenia aplikacja będzie wyyświetlać punkty brakujące do uzyskania wyższej oceny.
+INSTRUKCJA UŻYTKOWANIA PROGRAMU (Wersja Prototypowa):
+
+Cel aplikacji:
+Kalkulator Punktów Studenckich służy do monitorowania postępów w nauce w bieżącym semestrze. Aplikacja pozwala na definiowanie przedmiotów, określanie dla nich kategorii punktowanych (kolokwia, egzaminy, kartkówki, aktywność) oraz bieżące śledzenie, ile punktów brakuje do zaliczenia lub uzyskania wyższej oceny.
+
+Jak korzystać z prototypu:
+
+Ekran główny (Moje Przedmioty):
+Po uruchomieniu skryptu main.py, otworzy się główne okno aplikacji. Zobaczysz tam listę swoich przedmiotów. Główny widok służy jako centrum nawigacji.
+
+Sprawdzanie i wpisywanie punktów:
+Kliknij w przycisk z nazwą konkretnego przedmiotu (np. "Analiza Matematyczna 2"), aby otworzyć widok jego szczegółów.
+Na tym ekranie znajduje się formularz z polami liczbowymi. Służą one do wpisywania zdobytych punktów z poszczególnych kategorii (każde pole ma odgórnie narzucony limit, np. 0-50 pkt dla egzaminu, co zapobiega wpisaniu błędnych danych).
+
+Aby wrócić do ekranu głównego, kliknij przycisk "Wróć".
+
+Dodawanie nowego przedmiotu:
+Na ekranie głównym kliknij przycisk "+" (lub "Dodaj przedmiot").
+
+Zostaniesz przeniesiony do pustego formularza. Wpisz tam nazwę nowego przedmiotu.
+Aby zatwierdzić, kliknij "Zapisz" (co spowoduje powrót do ekranu głównego), lub "Anuluj", by wyjść bez zapisywania.
+
+Ważna uwaga dotycząca prototypu:
+Zgodnie z założeniami fazy 2 (prototyp i projekt), obecna wersja aplikacji skupia się na demonstracji przepływu użytkownika oraz szkieletu interfejsu graficznego.
+
+Brak trwałego zapisu: Wpisane punkty oraz nowo dodane przedmioty nie są jeszcze zapisywane na dysku. Po zamknięciu okna aplikacji, dane wracają do wartości domyślnych.
+
+Logika obliczeniowa: Skomplikowane przeliczanie brakujących punktów do wyższej oceny i aktualizacja pasków postępu zostaną w pełni zaimplementowane w kolejnym etapie, po integracji formularzy z logiką języka Python. Obecnie przyciski akcji prezentują przełączanie się między widokami QStackedWidget.
