@@ -1,1 +1,2 @@
-W aplikacji dodaje się przedmiooty, a w przedmiotach dodaje się kolokwia, egzaminy kartkówki i aktywność z ich punktami do zdobycia. Po wpisaniu progów zaliczenia aplikacja będzie wyyświetlać punkty brakujące do uzyskania wyższej oceny.
+W aplikacji dodaje się przedmioty, a w przedmiotach dodaje się kolokwia, egzaminy kartkówki i aktywność z ich punktami do zdobycia.
+Po wpisaniu progów zaliczenia aplikacja będzie wyyświetlać punkty brakujące do uzyskania wyższej oceny.
