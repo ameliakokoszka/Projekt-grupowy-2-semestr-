@@ -1,2 +1,3 @@
-W aplikacji dodaje się przedmioty, a w przedmiotach dodaje się kolokwia, egzaminy kartkówki i aktywność z ich punktami do zdobycia.
+INSTRUKCJA UŻYTKOWANIA PROGRAMU:
+W aplikacji wspisujemy nazwę przedmiotów, do których możemy dodać kolokwia, egzaminy, kartkówki i aktywność z ich punktami do zdobycia.
 Po wpisaniu progów zaliczenia aplikacja będzie wyyświetlać punkty brakujące do uzyskania wyższej oceny.
