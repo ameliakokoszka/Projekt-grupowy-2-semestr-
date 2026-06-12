@@ -30,8 +30,6 @@ Kalkulator Punktów Studenckich
 6. URUCHOMIENIE PROGRAMU
    python main.py
 
-===========================================
-
 UZYTE BIBLIOTEKI:
    * PySide6  - interfejs graficzny aplikacji
    * pytest   - testy jednostkowe
