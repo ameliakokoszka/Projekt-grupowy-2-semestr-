@@ -658,3 +658,261 @@ def _buduj_dodawanie(self) -> None:
             wiersz["widget"].deleteLater()
 
         self.wiersze_form_zaliczenia.clear()
+#Nawigacja
+
+    def _pokaz_glowna(self) -> None:
+        self._odswiez_karty()
+        self.stos.setCurrentIndex(0)
+
+    def _pokaz_dodawanie(self) -> None:
+        if self.dane_przedmiotow:
+            self.tytul_dodawania.setText("Dodaj nowy przedmiot")
+        else:
+            self.tytul_dodawania.setText("Dodaj pierwszy przedmiot")
+
+        self.stos.setCurrentIndex(2)
+
+    def _powrot_z_dodawania(self) -> None:
+        if self.dane_przedmiotow:
+            self._pokaz_glowna()
+
+    def _pokaz_przedmiot(self, nazwa: str) -> None:
+        self.etykieta_tytul.setText(nazwa)
+        self.etykieta_wyniku.setText("")
+        self.etykieta_wyniku.setStyleSheet("")
+
+        self._zbuduj_pola_punktow(nazwa)
+
+        self.stos.setCurrentIndex(1)
+
+    def _wyczysc_layout(self, layout) -> None:
+        while layout.count():
+            item = layout.takeAt(0)
+
+            if item.widget():
+                item.widget().deleteLater()
+            elif item.layout():
+                self._wyczysc_layout(item.layout())
+
+#Wygląd aplikacji
+
+    def _ustaw_style(self) -> None:
+        self.setStyleSheet("""
+            QMainWindow {
+                background-color: #FFFBF2;
+            }
+
+            QWidget {
+                background-color: transparent;
+                font-family: 'Calibri', 'Segoe UI', 'Verdana', sans-serif;
+                font-size: 14px;
+                color: #3D3450;
+            }
+
+            QWidget#strona {
+                background-color: #FFFBF2;
+            }
+
+            QWidget#contentArea {
+                background-color: #FFFBF2;
+            }
+
+            QWidget#scrollKontener {
+                background-color: #FFFBF2;
+            }
+
+            QWidget#pasekGorny {
+                background-color: #F5E6FF;
+                border-bottom: 2px solid #E0CCFF;
+            }
+
+            QLabel#tytulApki {
+                font-size: 20px;
+                font-weight: 700;
+                color: #6A3D9E;
+            }
+
+            QLabel#tytulPrzedmiotu {
+                font-size: 16px;
+                font-weight: 700;
+                color: #6A3D9E;
+            }
+
+            QLabel#nazwaKarty {
+                font-size: 16px;
+                font-weight: 700;
+                color: #3D3450;
+            }
+
+            QLabel#infoKarty {
+                font-size: 12px;
+                color: #7A6A8A;
+            }
+
+            QLabel#sekcjaTytul {
+                font-size: 15px;
+                font-weight: 700;
+                color: #6A3D9E;
+            }
+
+            QLabel#formLabel {
+                font-size: 13px;
+                font-weight: 600;
+                color: #4A3F5C;
+            }
+
+            QFrame#formFrame {
+                background-color: white;
+                border-radius: 18px;
+                border: 1.5px solid #E4D4F8;
+            }
+
+            QFrame#formFrame QWidget {
+                background-color: transparent;
+            }
+
+            QFrame#wierszWarunku {
+                background-color: #FAFAF8;
+                border-radius: 14px;
+                border: 1.5px solid #E4D4F8;
+            }
+
+            QPushButton#btnDodaj {
+                background-color: #C9A8E0;
+                color: white;
+                border: none;
+                border-radius: 10px;
+                padding: 9px 20px;
+                font-weight: 700;
+                font-size: 13px;
+            }
+
+            QPushButton#btnDodaj:hover {
+                background-color: #B090D0;
+            }
+
+            QPushButton#btnOtworzKarte {
+                background-color: white;
+                color: #6A3D9E;
+                border: 1.5px solid #C9A8E0;
+                border-radius: 10px;
+                padding: 9px;
+                font-weight: 700;
+            }
+
+            QPushButton#btnOtworzKarte:hover {
+                background-color: #F5EEFF;
+            }
+
+            QPushButton#btnWstecz {
+                background: transparent;
+                color: #6A3D9E;
+                border: none;
+                font-weight: 700;
+                font-size: 13px;
+                padding: 6px 10px;
+            }
+
+            QPushButton#btnWstecz:hover {
+                background-color: #EEE5FF;
+                border-radius: 8px;
+            }
+
+            QPushButton#btnPrzelicz {
+                background-color: #F5B8D0;
+                color: #5A1A3A;
+                border: none;
+                border-radius: 14px;
+                padding: 15px;
+                font-size: 15px;
+                font-weight: 700;
+            }
+
+            QPushButton#btnPrzelicz:hover {
+                background-color: #EFA0C0;
+            }
+
+            QLineEdit, QSpinBox, QComboBox {
+                border: 1.5px solid #D8C8F0;
+                border-radius: 10px;
+                padding: 8px 10px;
+                background: #FFFFFF;
+                color: #3D3450;
+                font-size: 14px;
+            }
+
+            QLineEdit:focus, QSpinBox:focus, QComboBox:focus {
+                border: 1.5px solid #9B72C4;
+                background: white;
+            }
+
+            QComboBox {
+                background-color: #FFFFFF;
+                selection-background-color: #EEE5FF;
+            }
+
+            QComboBox::drop-down {
+                border: none;
+                background-color: #F5EEFF;
+                width: 28px;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+            }
+
+            QComboBox QListView {
+                background-color: #FFFFFF;
+                color: #3D3450;
+                border: 1.5px solid #D8C8F0;
+                selection-background-color: #EEE5FF;
+                selection-color: #3D3450;
+                outline: none;
+            }
+
+            QComboBox QAbstractItemView {
+                background-color: #FFFFFF;
+                color: #3D3450;
+                selection-background-color: #EEE5FF;
+                selection-color: #3D3450;
+                border: 1.5px solid #D8C8F0;
+                border-radius: 8px;
+                padding: 4px;
+                outline: none;
+            }
+
+            QSpinBox::up-button, QSpinBox::down-button {
+                border: none;
+                background: transparent;
+                width: 18px;
+            }
+
+            QScrollArea {
+                border: none;
+                background: transparent;
+            }
+
+            QScrollBar:vertical {
+                background: #F5EEF8;
+                width: 8px;
+                border-radius: 4px;
+                margin: 0;
+            }
+
+            QScrollBar::handle:vertical {
+                background: #D0B8F0;
+                border-radius: 4px;
+                min-height: 30px;
+            }
+
+            QScrollBar::add-line:vertical,
+            QScrollBar::sub-line:vertical {
+                height: 0px;
+            }
+        """)
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    app.setStyle("Fusion")
+    okno = KalkulatorPunktow()
+    okno.show()
+    sys.exit(app.exec())
