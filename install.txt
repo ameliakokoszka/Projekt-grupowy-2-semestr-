@@ -1,7 +1,6 @@
 INSTRUKCJA INSTALACJI I URUCHOMIENIA
 Kalkulator Punktów Studenckich
 
-===========================================
 
 1. WYMAGANIA WSTEPNE
    * Zainstalowany Python w wersji 3.10 lub nowszej.
