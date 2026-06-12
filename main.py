@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (
     QFrame, QProgressBar, QScrollArea, QComboBox, QListView
 )
 
+
 class KalkulatorPunktow(QMainWindow):
 
     def __init__(self) -> None:
@@ -41,6 +42,7 @@ class KalkulatorPunktow(QMainWindow):
         self._ustaw_style()
 
         self._pokaz_dodawanie()
+
 #Strona główna
 
     def _buduj_glowna(self) -> None:
@@ -316,8 +318,10 @@ class KalkulatorPunktow(QMainWindow):
             padding: 18px;
             border: none;
         """)
+
 #Strona dodawania
-def _buduj_dodawanie(self) -> None:
+
+    def _buduj_dodawanie(self) -> None:
         uklad = QVBoxLayout(self.strona_dodawania)
         uklad.setContentsMargins(0, 0, 0, 0)
         uklad.setSpacing(0)
@@ -658,6 +662,7 @@ def _buduj_dodawanie(self) -> None:
             wiersz["widget"].deleteLater()
 
         self.wiersze_form_zaliczenia.clear()
+
 #Nawigacja
 
     def _pokaz_glowna(self) -> None:
