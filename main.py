@@ -245,6 +245,7 @@ class KalkulatorPunktow(QMainWindow):
             elif item.layout(): self._wyczysc_layout(item.layout())
 ###
 
+
     # --- NAWIGACJA ---
     def _pokaz_glowna(self) -> None:
         """Przełącza widok na stronę główną."""
