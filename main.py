@@ -153,9 +153,6 @@ class KalkulatorPunktow(QMainWindow):
 
     def _powrot_z_dodawania(self) -> None:
         """Powraca ze strony dodawania, jeśli są już przedmioty."""
-        azfda
-        dfasda
-        dasdas
         if self.baza_przedmiotow: self._pokaz_glowna()
 
     def _pokaz_przedmiot(self, nazwa: str) -> None:
