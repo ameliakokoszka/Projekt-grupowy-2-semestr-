@@ -247,6 +247,7 @@ class KalkulatorPunktow(QMainWindow):
 
 
     # --- NAWIGACJA ---
+    
     def _pokaz_glowna(self) -> None:
         """Przełącza widok na stronę główną."""
         self._odswiez_karty()
