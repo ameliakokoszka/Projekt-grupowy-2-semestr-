@@ -41,21 +41,22 @@ class KalkulatorPunktow(QMainWindow):
         self._buduj_dodawanie()
 
         self._pokaz_dodawanie()
+        
     # --- NAWIGACJA ---
-    def _pokaz_glowna(self) -> None:
+def _pokaz_glowna(self) -> None:
         """Przełącza widok na stronę główną."""
         self._odswiez_karty()
         self.stos.setCurrentIndex(0)
 
-    def _pokaz_dodawanie(self) -> None:
+def _pokaz_dodawanie(self) -> None:
         """Przełącza widok na stronę dodawania."""
         self.stos.setCurrentIndex(2)
 
-    def _powrot_z_dodawania(self) -> None:
+def _powrot_z_dodawania(self) -> None:
         """Powraca ze strony dodawania, jeśli są już przedmioty."""
         if self.baza_przedmiotow: self._pokaz_glowna()
 
-    def _pokaz_przedmiot(self, nazwa: str) -> None:
+def _pokaz_przedmiot(self, nazwa: str) -> None:
         """Otwiera stronę detali konkretnego przedmiotu."""
         self.etykieta_tytul.setText(nazwa)
         self.etykieta_wyniku.setText("")
@@ -65,3 +66,8 @@ class KalkulatorPunktow(QMainWindow):
 
 
 if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    app.setStyle("Fusion")
+    okno = KalkulatorPunktow()
+    okno.show()
+    sys.exit(app.exec())
