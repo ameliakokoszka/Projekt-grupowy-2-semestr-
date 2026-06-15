@@ -1,0 +1,18 @@
+Zaktualizowany plan działania na kolejny tydzień pracy
+W kolejnych etapach prac nad aplikacją, po zamknięciu wersji prototypowej, skupimy się na wdrożeniu
+brakujących elementów takich jak:
+
+- Obsługa ułamków (połówki punktów): Obecnie nasz kalkulator przyjmuje tylko wartości całkowite.
+Na większości przedmiotach punkty przyznawane są w ułamkach (np. 0.5 pkt lub mniej ), dlatego zmienimy typy 
+odpowiednich pól.
+- Szczegółowe progi ocen: Chcemy rozbudować system informacji zwrotnej. Zamiast prostego komunikatu 
+"Zaliczone / Nie zaliczone", dodamy funkcję, która na bieżąco będzie wyliczać i pokazywać, ile dokładnie punktów
+brakuje użytkownikowi do zdobycia kolejnej oceny (np. 3.0, 4,5).
+- Trwały zapis danych: Aktualnym minusem prototypu jest brak pamięci – po zamknięciu okna aplikacji wpisane przedmioty 
+znikają. Zaimplementujemy mechanizm zapisywania i wczytywania stanu, co sprawi, że aplikacja stanie się w pełni 
+użytecznym narzędziem na cały semestr.
+- Testy jednostkowe: Zgodnie z wytycznymi do ostatecznej wersji projektu (Faza 3), napiszemy testy dla klas
+odpowiedzialnych za przeliczanie punktów i sprawdzanie progów, aby mieć pewność, że wszystko działa.
+- dopracowanie wizualne: Położymy nacisk na ogólne dopracowanie interfejsu. Poprawimy skalowanie elementów, 
+zniwelujemy drobne niedociągnięcia w wyglądzie i zadbamy o to, aby aplikacja była po prostu przyjemniejsza w 
+codziennym użytkowaniu.
