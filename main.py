@@ -42,110 +42,6 @@ class KalkulatorPunktow(QMainWindow):
 
         self._pokaz_dodawanie()
 
-    ###
-    # Budowanie Innterfejsu
-    def _buduj_glowna(self) -> None:
-        """Buduje widok strony głównej z listą przedmiotów."""
-        uklad = QVBoxLayout(self.strona_glowna)
-        uklad.setContentsMargins(0, 0, 0, 0)
-
-        pasek = QHBoxLayout()
-        pasek.setContentsMargins(24, 18, 24, 18)
-        tytul = QLabel("Moje przedmioty")
-        tytul.setStyleSheet(f"font-size: 20px; font-weight: 700; color: {KOLOR_BRAKUJE};")
-        pasek.addWidget(tytul)
-        pasek.addStretch()
-        
-        btn = QPushButton("+ Dodaj przedmiot")
-        btn.setObjectName("btnDodaj")
-        btn.clicked.connect(self._pokaz_dodawanie)
-        pasek.addWidget(btn)
-        uklad.addLayout(pasek)
-
-        scroll = QScrollArea()
-        scroll.setWidgetResizable(True)
-        self.kontener_kart = QWidget()
-        self.uklad_kart = QVBoxLayout(self.kontener_kart)
-        self.uklad_kart.setAlignment(Qt.AlignTop)
-        scroll.setWidget(self.kontener_kart)
-        uklad.addWidget(scroll)
-
-    def _buduj_przedmiot(self) -> None:
-        """Buduje widok detali przedmiotu i przeliczania punktów."""
-        uklad = QVBoxLayout(self.strona_przedmiotu)
-        
-        pasek = QHBoxLayout()
-        btn_w = QPushButton("← Powrot")
-        btn_w.setObjectName("btnWstecz")
-        btn_w.clicked.connect(self._pokaz_glowna)
-        pasek.addWidget(btn_w)
-        pasek.addStretch()
-        self.etykieta_tytul = QLabel("")
-        self.etykieta_tytul.setStyleSheet(f"font-size: 16px; font-weight: 700; color: {KOLOR_BRAKUJE};")
-        pasek.addWidget(self.etykieta_tytul)
-        pasek.addStretch()
-        uklad.addLayout(pasek)
-
-        tu = QVBoxLayout()
-        self.uklad_punktow = QVBoxLayout()
-        tu.addLayout(self.uklad_punktow)
-
-        btn_przelicz = QPushButton("Przelicz punkty")
-        btn_przelicz.setObjectName("btnPrzelicz")
-        btn_przelicz.clicked.connect(self._przelicz)
-        tu.addWidget(btn_przelicz)
-
-        self.etykieta_wyniku = QLabel("")
-        self.etykieta_wyniku.setAlignment(Qt.AlignCenter)
-        self.etykieta_wyniku.setMinimumHeight(80)
-        tu.addWidget(self.etykieta_wyniku)
-        tu.addStretch()
-        
-        uklad.addLayout(tu)
-
-    def _buduj_dodawanie(self) -> None:
-        """Buduje widok formularza dodawania nowego przedmiotu."""
-        uklad = QVBoxLayout(self.strona_dodawania)
-        
-        pasek = QHBoxLayout()
-        btn_w = QPushButton("← Powrot")
-        btn_w.setObjectName("btnWstecz")
-        btn_w.clicked.connect(self._powrot_z_dodawania)
-        pasek.addWidget(btn_w)
-        pasek.addStretch()
-        self.tytul_dodawania = QLabel("Dodaj przedmiot")
-        self.tytul_dodawania.setStyleSheet(f"font-size: 16px; font-weight: 700; color: {KOLOR_BRAKUJE};")
-        pasek.addWidget(self.tytul_dodawania)
-        pasek.addStretch()
-        uklad.addLayout(pasek)
-
-        tu = QVBoxLayout()
-        tu.addWidget(QLabel("Nazwa przedmiotu:"))
-        self.pole_nazwa = QLineEdit()
-        tu.addWidget(self.pole_nazwa)
-
-        tu.addWidget(QLabel("Prog zaliczenia:"))
-        self.pole_prog = QSpinBox()
-        self.pole_prog.setRange(0, 9999)
-        self.pole_prog.setValue(51)
-        tu.addWidget(self.pole_prog)
-
-        self.lista_warunkow_layout = QVBoxLayout()
-        tu.addLayout(self.lista_warunkow_layout)
-
-        btn_dodaj_warunek = QPushButton("+ Dodaj element zaliczenia")
-        btn_dodaj_warunek.clicked.connect(self._dodaj_wiersz_formy_zaliczenia)
-        tu.addWidget(btn_dodaj_warunek)
-
-        btn_zap = QPushButton("Zapisz przedmiot")
-        btn_zap.setObjectName("btnPrzelicz")
-        btn_zap.clicked.connect(self._zapisz_przedmiot)
-        tu.addWidget(btn_zap)
-        tu.addStretch()
-
-        uklad.addLayout(tu)
-        self._dodaj_wiersz_formy_zaliczenia()
-
     # Logika Aplikacji
     def _odswiez_karty(self) -> None:
         """Odświeża listę kart przedmiotów na stronie głównej."""
@@ -243,8 +139,6 @@ class KalkulatorPunktow(QMainWindow):
             item = layout.takeAt(0)
             if item.widget(): item.widget().deleteLater()
             elif item.layout(): self._wyczysc_layout(item.layout())
-###
-
 
     # --- NAWIGACJA ---
     
