@@ -6,6 +6,78 @@ from PySide6.QtWidgets import (
     QFrame, QProgressBar, QScrollArea, QComboBox, QListView
 )
 
+# STAŁE (kolory, ktore zostaly uzyte do stworzenia aplikacji)
+KOLOR_TLA = "#FFFBF2"
+KOLOR_TEKSTU = "#3D3450"
+KOLOR_BIALY = "#FFFFFF"
+
+# Stany (Zaliczone / Brakuje)
+KOLOR_ZALICZONE = "#1A7A2A"
+KOLOR_BRAKUJE = "#6A3D9E"
+
+# Paski postępu
+KOLOR_PASEK_TLO = "rgba(255,255,255,0.65)"
+KOLOR_PASEK_ZALICZONE = "#88C98A"
+KOLOR_PASEK_BRAKUJE = "#C9A8E0"
+
+# Przyciski i interfejs
+KOLOR_GLOWNY = "#C9A8E0"
+KOLOR_GLOWNY_HOVER = "#B090D0"
+KOLOR_PRZELICZ = "#F5B8D0"
+KOLOR_PRZELICZ_TEKST = "#5A1A3A"
+KOLOR_KRAWEDZI = "#D8C8F0"
+KOLOR_TLO_HOVER = "#EEE5FF"
+KOLOR_TLO_ZALICZONE = "#D4F0D4"
+
+# Kolory pastelowe do kafelków z przedmiotami
+KOLORY_KART = ["#FDEAF1", "#FFF8D6", "#EEE5FF", "#DFF7F0", "#FFE8D6"]
+
+GLOWNY_STYL = f"""
+    QMainWindow, QWidget#strona, QWidget#contentArea, QWidget#scrollKontener {{
+        background-color: {KOLOR_TLA};
+    }}
+    QWidget {{
+        font-family: 'Calibri', sans-serif; font-size: 15px; color: {KOLOR_TEKSTU};
+    }}
+    QPushButton {{
+        font-weight: 700; border-radius: 10px; padding: 9px;
+    }}
+    QPushButton#btnDodaj {{ background-color: {KOLOR_GLOWNY}; color: {KOLOR_BIALY}; border: none; }}
+    QPushButton#btnDodaj:hover {{ background-color: {KOLOR_GLOWNY_HOVER}; }}
+    QPushButton#btnWstecz {{ background: transparent; color: {KOLOR_BRAKUJE}; border: none; }}
+    QPushButton#btnWstecz:hover {{ background-color: {KOLOR_TLO_HOVER}; }}
+    QPushButton#btnPrzelicz {{ background-color: {KOLOR_PRZELICZ}; color: {KOLOR_PRZELICZ_TEKST}; padding: 15px; border-radius: 14px; }}
+    QLineEdit, QSpinBox, QComboBox {{
+        border: 1.5px solid {KOLOR_KRAWEDZI}; border-radius: 10px; padding: 8px; background: {KOLOR_BIALY};
+    }}
+"""
+
+# MODEL DANYCH 
+class Przedmiot:
+    """Klasa przechowująca dane i logikę obliczeń dla pojedynczego przedmiotu."""
+    
+    def __init__(self, nazwa: str, prog: int, elementy: list) -> None:
+        """Tworzy nowy przedmiot z podaną nazwą, progiem i listą elementów."""
+        self.nazwa = nazwa
+        self.prog = prog
+        self.elementy = elementy
+        self.zdobyte_punkty = 0
+
+    def maks_punktow(self) -> int:
+        """Zwraca maksymalną możliwą liczbę punktów do zdobycia."""
+        return sum(el["maks"] for el in self.elementy)
+
+    def czy_zaliczony(self) -> bool:
+        """Zwraca True, jeśli zdobyte punkty przekraczają lub równe są progowi."""
+        return self.zdobyte_punkty >= self.prog
+
+    def ile_brakuje(self) -> int:
+        """Oblicza, ile punktów brakuje do zaliczenia."""
+        if self.czy_zaliczony():
+            return 0
+        return self.prog - self.zdobyte_punkty
+
+
 
 ###Glowne okno
 class KalkulatorPunktow(QMainWindow):
