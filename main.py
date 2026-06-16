@@ -77,7 +77,50 @@ class Przedmiot:
             return 0
         return self.prog - self.zdobyte_punkty
 
+#WIDOK (Komponenty wizualne)
 
+class KartaPrzedmiotu(QFrame):
+    
+    def __init__(self, przedmiot: Przedmiot, kolor: str, parent: QWidget = None) -> None:
+        super().__init__(parent)
+        self.przedmiot = przedmiot
+        self.btn_szczegoly = QPushButton("Otworz szczegoly  →")
+        self._buduj_ui(kolor)
+
+    def _buduj_ui(self, kolor: str) -> None:
+        self.setStyleSheet(f"QFrame {{ background-color: {kolor}; border-radius: 18px; border: 1.5px solid rgba(0,0,0,0.06); }} QLabel {{ border: none; background: transparent; }}")
+        u = QVBoxLayout(self)
+        u.setContentsMargins(22, 18, 22, 18)
+        
+        nagl = QLabel(self.przedmiot.nazwa)
+        nagl.setStyleSheet("font-size: 16px; font-weight: 700;")
+        u.addWidget(nagl)
+
+        pasek = QProgressBar()
+        pasek.setMaximum(self.przedmiot.maks_punktow())
+        pasek.setValue(self.przedmiot.zdobyte_punkty)
+        pasek.setTextVisible(False)
+        pasek.setFixedHeight(12)
+        u.addWidget(pasek)
+
+        wiersz = QHBoxLayout()
+        info = QLabel(f"{self.przedmiot.zdobyte_punkty} / {self.przedmiot.maks_punktow()} pkt  •  Prog: {self.przedmiot.prog} pkt")
+        wiersz.addWidget(info)
+        wiersz.addStretch()
+
+        st = QLabel()
+        if self.przedmiot.czy_zaliczony():
+            st.setText("Zaliczone!")
+            st.setStyleSheet(f"color:{KOLOR_ZALICZONE}; font-weight:700; font-size:12px; background:transparent;")
+        else:
+            st.setText(f"Brakuje: {self.przedmiot.ile_brakuje()} pkt")
+            st.setStyleSheet(f"color:{KOLOR_BRAKUJE}; font-weight:700; font-size:12px; background:transparent;")
+        
+        wiersz.addWidget(st)
+        u.addLayout(wiersz)
+        
+        self.btn_szczegoly.setStyleSheet(f"background-color: {KOLOR_BIALY}; color: {KOLOR_BRAKUJE}; border: 1.5px solid {KOLOR_GLOWNY};")
+        u.addWidget(self.btn_szczegoly)
 
 ###Glowne okno
 class KalkulatorPunktow(QMainWindow):
