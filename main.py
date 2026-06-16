@@ -122,7 +122,9 @@ class KartaPrzedmiotu(QFrame):
         self.btn_szczegoly.setStyleSheet(f"background-color: {KOLOR_BIALY}; color: {KOLOR_BRAKUJE}; border: 1.5px solid {KOLOR_GLOWNY};")
         u.addWidget(self.btn_szczegoly)
 
-###Glowne okno
+
+# Kontroler (Główne okno)
+
 class KalkulatorPunktow(QMainWindow):
     """Główne okno zarządzające nawigacją i formularzami aplikacji."""
     
@@ -156,7 +158,8 @@ class KalkulatorPunktow(QMainWindow):
         self._buduj_dodawanie()
 
         self._pokaz_dodawanie()
-# --- BUDOWANIE INTERFEJSU ---
+
+# Budowanie Interfejsu
     def _buduj_glowna(self) -> None:
         """Buduje widok strony głównej z listą przedmiotów."""
         uklad = QVBoxLayout(self.strona_glowna)
@@ -258,7 +261,8 @@ class KalkulatorPunktow(QMainWindow):
 
         uklad.addLayout(tu)
         self._dodaj_wiersz_formy_zaliczenia()
-    # Logika Aplikacji
+
+# Logika Aplikacji
     def _odswiez_karty(self) -> None:
         """Odświeża listę kart przedmiotów na stronie głównej."""
         while self.uklad_kart.count():
@@ -266,9 +270,8 @@ class KalkulatorPunktow(QMainWindow):
             if item.widget():
                 item.widget().deleteLater()
 
-        kolory = ["#FDEAF1", "#FFF8D6", "#EEE5FF", "#DFF7F0", "#FFE8D6"]
         for i, (nazwa, przedmiot) in enumerate(self.baza_przedmiotow.items()):
-            karta = KartaPrzedmiotu(przedmiot, kolory[i % len(kolory)])
+            karta = KartaPrzedmiotu(przedmiot, KOLORY_KART[i % len(KOLORY_KART)])
             karta.btn_szczegoly.clicked.connect(lambda checked=False, n=nazwa: self._pokaz_przedmiot(n))
             self.uklad_kart.addWidget(karta)
 
@@ -341,10 +344,10 @@ class KalkulatorPunktow(QMainWindow):
 
         if przedmiot.czy_zaliczony():
             tekst = f"Zaliczone!\nMasz lacznie {suma} pkt"
-            kolor, tlo = KOLOR_ZALICZONE, "#D4F0D4"
+            kolor, tlo = KOLOR_ZALICZONE, KOLOR_TLO_ZALICZONE
         else:
             tekst = f"Brakuje Ci jeszcze {przedmiot.ile_brakuje()} pkt\nMasz {suma} pkt  •  Prog: {przedmiot.prog} pkt"
-            kolor, tlo = KOLOR_BRAKUJE, "#EEE5FF"
+            kolor, tlo = KOLOR_BRAKUJE, KOLOR_TLO_HOVER
 
         self.etykieta_wyniku.setText(tekst)
         self.etykieta_wyniku.setStyleSheet(f"color: {kolor}; font-size: 15px; font-weight: 700; background-color: {tlo}; border-radius: 14px; padding: 18px;")
@@ -356,8 +359,7 @@ class KalkulatorPunktow(QMainWindow):
             if item.widget(): item.widget().deleteLater()
             elif item.layout(): self._wyczysc_layout(item.layout())
 
-    # --- NAWIGACJA ---
-    
+# Nawigacja
     def _pokaz_glowna(self) -> None:
         """Przełącza widok na stronę główną."""
         self._odswiez_karty()
