@@ -423,3 +423,170 @@ class KalkulatorPunktow(QMainWindow):
 
         uklad.addLayout(tu)
         self._dodaj_wiersz_formy_zaliczenia()
+
+# Logika Aplikacji
+    def _aktualizuj_minima_ocen(self) -> None:
+        """Ustawia poprawne minimalne progi kolejnych ocen."""
+        oceny = list(self.pola_ocen.keys())
+        for i in range(1, len(oceny)):
+            poprzednie = self.pola_ocen[oceny[i - 1]]
+            biezace = self.pola_ocen[oceny[i]]
+            puste = biezace.jest_puste()
+            minimum = 0 if poprzednie.jest_puste() else min(150, round(poprzednie.value() + 0.1, 1))
+            biezace.setMinimum(minimum)
+            if puste:
+                biezace.clear()
+
+    def _odswiez_karty(self) -> None:
+        """Odświeża karty przedmiotów na stronie głównej."""
+        while self.uklad_kart.count():
+            item = self.uklad_kart.takeAt(0)
+            if item.widget():
+                item.widget().deleteLater()
+
+        for i, (nazwa, przedmiot) in enumerate(self.baza_przedmiotow.items()):
+            karta = KartaPrzedmiotu(przedmiot, KOLORY_KART[i % len(KOLORY_KART)])
+            karta.btn_szczegoly.clicked.connect(lambda checked=False, n=nazwa: self._pokaz_przedmiot(n))
+            karta.btn_usun.clicked.connect(lambda checked=False, n=nazwa: self._usun_przedmiot(n))
+            self.uklad_kart.addWidget(karta)
+
+    def _usun_przedmiot(self, nazwa: str) -> None:
+        """Usuwa wybrany przedmiot."""
+        del self.baza_przedmiotow[nazwa]
+        self.magazyn.zapisz(self.baza_przedmiotow)
+        self._odswiez_karty()
+        
+    def _dodaj_wiersz_formy_zaliczenia(self) -> None:
+        """Dodaje nowe pole elementu zaliczenia."""
+        wiersz_widget = QWidget()
+        uklad = QHBoxLayout(wiersz_widget)
+        
+        pole = QLineEdit()
+        pole.setPlaceholderText("Nazwa (np. Kolokwium 1)")
+        maks = PolePunktow("20.0", 0.1, 150)
+        
+        uklad.addWidget(pole, 5)
+        uklad.addWidget(maks, 1)
+
+        self.wiersze_form_zaliczenia.append({"widget": wiersz_widget, "nazwa": pole, "maks": maks})
+        self.lista_warunkow_layout.addWidget(wiersz_widget)
+
+    def _zapisz_przedmiot(self) -> None:
+        """Sprawdza formularz i zapisuje przedmiot."""
+        nazwa = self.pole_nazwa.text().strip()
+        if not nazwa: return
+        if any(pole.jest_puste() for pole in self.pola_ocen.values()): return
+
+        elementy = []
+        for w in self.wiersze_form_zaliczenia:
+            n = w["nazwa"].text().strip()
+            if n:
+                if w["maks"].jest_puste(): return
+                elementy.append({"nazwa": n, "maks": w["maks"].value(), "punkty": 0.0})
+        
+        if not elementy: return
+
+        progi_ocen = {ocena: pole.value() for ocena, pole in self.pola_ocen.items()}
+        wartosci_progow = list(progi_ocen.values())
+        if any(wartosci_progow[i] >= wartosci_progow[i + 1] for i in range(len(wartosci_progow) - 1)): return
+        self.baza_przedmiotow[nazwa] = Przedmiot(nazwa, progi_ocen["3.0"], elementy, progi_ocen)
+        self.magazyn.zapisz(self.baza_przedmiotow)
+
+        self.pole_nazwa.clear()
+        for pole in self.pola_ocen.values():
+            pole.setMinimum(0)
+            pole.setValue(pole.minimum())
+            pole.clear()
+        for w in self.wiersze_form_zaliczenia:
+            w["widget"].deleteLater()
+        self.wiersze_form_zaliczenia.clear()
+        self._dodaj_wiersz_formy_zaliczenia()
+        
+        self._pokaz_glowna()
+
+    def _zbuduj_pola_punktow(self, nazwa_przedmiotu: str) -> None:
+        """Tworzy pola do wpisywania zdobytych punktów."""
+        while self.uklad_punktow.count():
+            item = self.uklad_punktow.takeAt(0)
+            if item.widget(): item.widget().deleteLater()
+            elif item.layout(): self._wyczysc_layout(item.layout())
+
+        self.spinboxy.clear()
+        przedmiot = self.baza_przedmiotow[nazwa_przedmiotu]
+
+        for el in przedmiot.elementy:
+            wiersz = QHBoxLayout()
+            wiersz.addWidget(QLabel(f"{el['nazwa']} (0-{el['maks']})"))
+            spin = PolePunktow("0.0", 0, el["maks"])
+            punkty = el.get("punkty", 0.0)
+            if punkty > 0:
+                spin.setValue(punkty)
+            wiersz.addWidget(spin)
+            self.spinboxy[el["nazwa"]] = spin
+            self.uklad_punktow.addLayout(wiersz)
+
+    def _przelicz(self) -> None:
+        """Sumuje punkty i wyświetla wynik."""
+        nazwa = self.etykieta_tytul.text()
+        przedmiot = self.baza_przedmiotow[nazwa]
+        
+        suma = round(sum(0 if s.jest_puste() else s.value() for s in self.spinboxy.values()), 1)
+        przedmiot.zdobyte_punkty = suma
+        for el in przedmiot.elementy:
+            spin = self.spinboxy.get(el["nazwa"])
+            if spin is not None:
+                el["punkty"] = 0.0 if spin.jest_puste() else spin.value()
+        self.magazyn.zapisz(self.baza_przedmiotow)
+
+        if przedmiot.czy_zaliczony():
+            tekst = f"Zaliczone!\nMasz łącznie {suma} pkt\n{przedmiot.komunikat_oceny()}"
+            kolor, tlo = KOLOR_ZALICZONE, KOLOR_TLO_ZALICZONE
+        else:
+            tekst = f"Niezaliczone!\nMasz łącznie {suma} pkt\n{przedmiot.komunikat_oceny()}"
+            kolor, tlo = KOLOR_BRAKUJE, KOLOR_TLO_HOVER
+
+        self.etykieta_wyniku.setText(tekst)
+        self.etykieta_wyniku.setStyleSheet(f"color: {kolor}; font-size: 15px; font-weight: 700; background-color: {tlo}; border-radius: 14px; padding: 18px;")
+
+    def _wyczysc_layout(self, layout) -> None:
+        """Usuwa elementy z podanego układu."""
+        while layout.count():
+            item = layout.takeAt(0)
+            if item.widget(): item.widget().deleteLater()
+            elif item.layout(): self._wyczysc_layout(item.layout())
+
+# Nawigacja
+    def _pokaz_glowna(self) -> None:
+        """Pokazuje stronę główną."""
+        self._odswiez_karty()
+        self.stos.setCurrentIndex(0)
+
+    def _pokaz_dodawanie(self) -> None:
+        """Pokazuje formularz dodawania przedmiotu."""
+        self.btn_w_dodawanie.setVisible(bool(self.baza_przedmiotow))
+        self.stos.setCurrentIndex(2)
+
+    def _powrot_z_dodawania(self) -> None:
+        """Wraca z formularza do strony głównej."""
+        if self.baza_przedmiotow: self._pokaz_glowna()
+
+    def _pokaz_przedmiot(self, nazwa: str) -> None:
+        """Pokazuje szczegóły wybranego przedmiotu."""
+        self.etykieta_tytul.setText(nazwa)
+        self.etykieta_wyniku.setText("")
+        self.etykieta_wyniku.setStyleSheet("")
+        self._zbuduj_pola_punktow(nazwa)
+        self.stos.setCurrentIndex(1)
+
+    def closeEvent(self, event) -> None:
+        """Zapisuje dane przed zamknięciem aplikacji."""
+        self.magazyn.zapisz(self.baza_przedmiotow)
+        super().closeEvent(event)
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    app.setStyle("Fusion")
+    okno = KalkulatorPunktow()
+    okno.show()
+    sys.exit(app.exec())
