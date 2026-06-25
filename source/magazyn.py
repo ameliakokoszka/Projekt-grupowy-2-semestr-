@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from PySide6.QtCore import QStandardPaths
-from src.model import Przedmiot 
+from source.model import Przedmiot 
 
 #MAGAZYN DANYCH
 class MagazynDanych:
