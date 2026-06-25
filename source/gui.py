@@ -6,8 +6,8 @@ from PySide6.QtWidgets import (
     QAbstractSpinBox
 )
 
-from src.model import Przedmiot
-from src.magazyn import MagazynDanych
+from source.model import Przedmiot
+from source.magazyn import MagazynDanych
 
 # STAŁE (kolory, ktore zostaly uzyte do stworzenia aplikacji)
 KOLOR_TLA = "#FFFBF2"
