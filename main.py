@@ -74,6 +74,7 @@ GLOWNY_STYL = f"""
     }}
 """
 
+#WPISYWANIE PUNKTÓW
 class PolePunktow(QDoubleSpinBox):
     """Tworzy pole do wpisywania punktów."""
     
@@ -165,9 +166,7 @@ class Przedmiot:
         przedmiot.zdobyte_punkty = dane.get("zdobyte_punkty", 0.0)
         return przedmiot
 
-
 #WIDOK (Komponenty wizualne)
-
 class KartaPrzedmiotu(QFrame):
     """Wyświetla najważniejsze informacje o przedmiocie."""
     
@@ -232,9 +231,7 @@ class KartaPrzedmiotu(QFrame):
         self.btn_szczegoly.setStyleSheet(f"background-color: {KOLOR_BIALY}; color: {KOLOR_BRAKUJE}; border: 1.5px solid {KOLOR_GLOWNY};")
         u.addWidget(self.btn_szczegoly)
 
-
-# Kontroler (Główne okno)
-
+# MAGAZYN DANYCH
 class MagazynDanych:
     """Zapisuje i wczytuje dane z pliku JSON."""
 
@@ -272,7 +269,7 @@ class MagazynDanych:
                 continue
         return baza
 
-
+# KONTROLER (Główne okno)
 class KalkulatorPunktow(QMainWindow):
     """Obsługuje główne okno aplikacji."""
     
